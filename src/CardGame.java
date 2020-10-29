@@ -7,9 +7,8 @@ import java.util.Scanner;
 public class CardGame {
 
   static boolean validatePack(String packLocation, int playerCount) {
-    // System.out.println("Valid pack function running");
     int lines = 0;
-    List<Integer> tempDeck = new ArrayList<>();
+    ArrayList<Integer> tempDeck = new ArrayList<>();
     File myObj = new File(packLocation);
     try {
       Scanner myReader = new Scanner(myObj);
@@ -68,7 +67,6 @@ public class CardGame {
     System.out.print("Please Enter Number of Players:");
     int playerCount = input.nextInt();
 
-
     System.out.println("Please Enter Pack Location/Name:");
     String packLocation = input.next();
 
@@ -81,26 +79,28 @@ public class CardGame {
 
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
-    // Declare array with correct size for number of players
-    // int[] Pack;
-    // Pack = new int[8*playerCount];
+    /*
+    Declare array with correct size for number of players
+    int[] Pack;
+    Pack = new int[8*playerCount];
 
-    // int CurrentCard = 1;
-    // int CurrentCount = 0;
-    // for (int i=0; i < Pack.length; i++ ) {
-    // System.out.println("Index: " + i);
-    // System.out.println("CurrentCard: " + CurrentCard);
-    // System.out.println("CurrentCount: " + CurrentCount);
-    // if (CurrentCount == 4) {
-    // CurrentCard++;
-    // CurrentCount = 0;
-    // }
-    // Pack[i] = CurrentCard;
-    // CurrentCount++;
+    int CurrentCard = 1;
+    int CurrentCount = 0;
+    for (int i=0; i < Pack.length; i++ ) {
+    System.out.println("Index: " + i);
+    System.out.println("CurrentCard: " + CurrentCard);
+    System.out.println("CurrentCount: " + CurrentCount);
+    if (CurrentCount == 4) {
+    CurrentCard++;
+    CurrentCount = 0;
+    }
+    Pack[i] = CurrentCard;
+    CurrentCount++;
 
-    // }
+    }
 
-    // System.out.println(Arrays.toString(Pack));
+    System.out.println(Arrays.toString(Pack));
+    */
 
   }
 }
