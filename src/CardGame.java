@@ -12,11 +12,24 @@ public class CardGame {
     File myObj = new File(packLocation);
     try {
       Scanner myReader = new Scanner(myObj);
+      
+      // NEED TO ADD CODE TO CHECK THAT THE INCOMING DATA IS INTEGER
+      
+      int currentDeckIndex = 0;
+      int currentDeckSize = 0;
       while (myReader.hasNextLine()) {
-        lines++;
-        String data = myReader.nextLine();
-        tempDeck.add(Integer.parseInt(data));
-        // System.out.println(data);
+         lines++;
+         int data = Integer.parseInt(myReader.nextLine());
+         if (currentDeckSize < 3) {
+        	 CardDeck.addCard(currentDeckIndex, data);
+        	 currentDeckSize++;
+         }
+         else if (currentDeckSize == 3) {
+        	 CardDeck.addCard(currentDeckIndex, data);
+        	 currentDeckIndex++;
+        	 currentDeckSize = 0;
+         }
+        tempDeck.add(data);
       }
       myReader.close();
       int[] tempArrayDeck = tempDeck.stream().filter(t -> t != null).mapToInt(t -> t).toArray();
@@ -66,7 +79,9 @@ public class CardGame {
     Scanner input = new Scanner(System.in);
     System.out.print("Please Enter Number of Players:");
     int playerCount = input.nextInt();
+    CardDeck.initialiseDeck(playerCount);
 
+    
     System.out.println("Please Enter Pack Location/Name:");
     String packLocation = input.next();
 
@@ -79,6 +94,9 @@ public class CardGame {
 
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
+    CardDeck.outputDeck();
+    
+    
     /*
     Declare array with correct size for number of players
     int[] Pack;
