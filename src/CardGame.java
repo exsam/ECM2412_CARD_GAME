@@ -1,5 +1,8 @@
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class CardGame {
 
@@ -8,22 +11,21 @@ public class CardGame {
     File myObj = new File(packLocation);
     try {
       Scanner myReader = new Scanner(myObj);
-      
+
       // NEED TO ADD CODE TO CHECK THAT THE INCOMING DATA IS INTEGER
-      
+
       int currentDeckIndex = 0;
       int currentDeckSize = 0;
       while (myReader.hasNextLine()) {
-         int data = Integer.parseInt(myReader.nextLine());
-         if (currentDeckSize < 3) {
-        	 CardDeck.addCard(currentDeckIndex, data);
-        	 currentDeckSize++;
-         }
-         else if (currentDeckSize == 3) {
-        	 CardDeck.addCard(currentDeckIndex, data);
-        	 currentDeckIndex++;
-        	 currentDeckSize = 0;
-         }
+        int data = Integer.parseInt(myReader.nextLine());
+        if (currentDeckSize < 3) {
+          CardDeck.addCard(currentDeckIndex, data);
+          currentDeckSize++;
+        } else if (currentDeckSize == 3) {
+          CardDeck.addCard(currentDeckIndex, data);
+          currentDeckIndex++;
+          currentDeckSize = 0;
+        }
         tempDeck.add(data);
       }
       myReader.close();
@@ -79,16 +81,15 @@ public class CardGame {
     System.out.println("Please Enter Pack Location/Name:");
     String packLocation = input.next();
 
-   /* while (validatePack(packLocation, playerCount) == false) {
+    while (validatePack(packLocation, playerCount) == false) {
       System.out.println("Invalid Pack, please enter a new pack!");
       System.out.println("Please Enter NEW Pack Location/Name:");
       packLocation = input.next();
       validatePack(packLocation, playerCount);
-    }*/
+    }
 
-
-    //Generating The Player Threads
-    for(int i = 1; i <= playerCount; i++){
+    // Generating The Player Threads
+    for (int i = 1; i <= playerCount; i++) {
       Player base = new Player();
       System.out.println("player" + i);
       base.start();
@@ -98,8 +99,7 @@ public class CardGame {
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
     CardDeck.outputDeck();
-    
-    
+
     /*
     Declare array with correct size for number of players
     int[] Pack;
