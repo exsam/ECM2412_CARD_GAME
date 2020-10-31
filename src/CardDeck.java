@@ -20,6 +20,9 @@ public class CardDeck {
     	System.out.println("Adding: " + cardDesignation + " to Deck: " + deckNumber);
     	Deck.get(deckNumber).add(cardDesignation);
 
+    public synchronized int playerMove(int card) {
+        int drawnCard = 0;
+        return drawnCard;
     }
     
     public synchronized int drawCard(int deckIndex, int cardDesignation) {

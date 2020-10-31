@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class CardGame {
 
   static boolean validatePack(String packLocation, int playerCount) {
-    int lines = 0;
+    //int lines = 0;
     ArrayList<Integer> tempDeck = new ArrayList<>();
     File myObj = new File(packLocation);
     try {
