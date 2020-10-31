@@ -1,14 +1,10 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CardGame {
 
   static boolean validatePack(String packLocation, int playerCount) {
-    //int lines = 0;
-    ArrayList<Integer> tempDeck = new ArrayList<>();
+    List<Integer> tempDeck = new ArrayList<>();
     File myObj = new File(packLocation);
     try {
       Scanner myReader = new Scanner(myObj);
@@ -18,7 +14,6 @@ public class CardGame {
       int currentDeckIndex = 0;
       int currentDeckSize = 0;
       while (myReader.hasNextLine()) {
-         lines++;
          int data = Integer.parseInt(myReader.nextLine());
          if (currentDeckSize < 3) {
         	 CardDeck.addCard(currentDeckIndex, data);
@@ -81,15 +76,23 @@ public class CardGame {
     int playerCount = input.nextInt();
     CardDeck.initialiseDeck(playerCount);
 
-    
     System.out.println("Please Enter Pack Location/Name:");
     String packLocation = input.next();
 
-    while (validatePack(packLocation, playerCount) == false) {
+   /* while (validatePack(packLocation, playerCount) == false) {
       System.out.println("Invalid Pack, please enter a new pack!");
       System.out.println("Please Enter NEW Pack Location/Name:");
       packLocation = input.next();
       validatePack(packLocation, playerCount);
+    }*/
+
+
+    //Generating The Player Threads
+    for(int i = 1; i <= playerCount; i++){
+      Player base = new Player();
+      System.out.println("player" + i);
+      base.start();
+      base.setName("player" + i);
     }
 
     System.out.println("Setting Up A " + playerCount + " Player Game");
