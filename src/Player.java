@@ -4,21 +4,23 @@ import java.util.List;
 public class Player extends Thread {
 
   private static final List<Card> hand = new ArrayList<Card>();
-  private int number;
+  private final int number;
 
-  /**
-   * @param card
-   * @param position in ArrayList
-   */
-  public void addToHand(Card card, int position) {
+  public Player(int number) {
+    this.number = number;
+  }
+
+  public int getNumber() {
+    return number;
+  }
+
+  public void addToHand(Card card) {
     // HOW DO WE ACCESS PLAYER Ns DECK
-    hand.set(position, card);
+    hand.add(card);
   }
 
   public void addToDeck(CardDeck cardDeck) {
-    // randomly select card from hand that is not = playerNumber
-    // addCard to deck1 BUT
-    // WHERE DO WE ADD THE CARD IN DECK1
+
   }
 
   public synchronized void playerMove(CardDeck deck) {

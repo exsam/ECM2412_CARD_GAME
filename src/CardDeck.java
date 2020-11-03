@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardDeck {
+  public CardDeck() {
+  }
 
   public static List<List<Integer>> Deck;
 
