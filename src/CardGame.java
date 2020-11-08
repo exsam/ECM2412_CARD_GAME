@@ -3,6 +3,10 @@ import java.util.*;
 
 public class CardGame {
 
+  public static Player[] playerList;
+  public static CardDeck[] cardDecks;
+  static int playerCount;
+
   public static boolean validatePack(String packLocation, int playerCount) {
     List<Integer> tempDeck = new ArrayList<>();
     File myObj = new File(packLocation);
@@ -123,7 +127,7 @@ public class CardGame {
       return winnable;
     }
   }
-  // TODO: function generatePlayerThreads
+/*  // TODO: function generatePlayerThreads
   public static void generatePlayerThreads(int playerCount){
     // Generating The Player Threads
     for (int i = 1; i <= playerCount; i++) {
@@ -145,7 +149,7 @@ public class CardGame {
       System.out.println("deck" + i);
       // naming thread to each player
     }
-  }
+  }*/
   // TODO: function populateGame
   public static void populateGame(int playerCount, ArrayList<Integer> inputPack){
     //TODO: get set of all running threads
@@ -160,8 +164,13 @@ public class CardGame {
     // main method for entire game simulation
     Scanner input = new Scanner(System.in);
     System.out.print("Please Enter Number of Players:");
+
+
     int playerCount = input.nextInt();
     CardDeck.initialiseDeck(playerCount);
+
+    playerList = new Player[playerCount];
+    System.out.println(playerList.length);
 
     System.out.println("Please Enter Pack Location/Name:");
     String packLocation = input.next();
@@ -173,7 +182,7 @@ public class CardGame {
       validatePack(packLocation, playerCount);
     }
 
-    generatePlayerThreads(playerCount);
+    //generatePlayerThreads(playerCount);
 
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
