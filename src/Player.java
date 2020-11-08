@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Player extends Thread {
 
-  private static final List<Card> hand = new ArrayList<Card>();
+  private static List<Card> hand = new ArrayList<Card>();
   private final int number;
 
   public Player(int number) {
