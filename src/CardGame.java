@@ -111,7 +111,6 @@ public class CardGame {
         // for each deck, round robin deal a card
         cardDecks[d].addCard(new Card(cardDecks[d].toString(), inputPack.get(0)));
         inputPack.remove(0);
-        System.out.println(cardDecks[d].toString() + " " + cardDecks[d].getDeck());
       }
     }
   }
@@ -139,14 +138,12 @@ public class CardGame {
     for (int i = 0; i < playerCount; i++) {
       playerList[i] = new Player(i + 1);
       deckArray[i] = new CardDeck(i + 1);
-      System.out.println(deckArray[i].toString());
     }
 
     ArrayList<Integer> loadedIntegerPack = importPackFile(playerCount);
-    // isGameWinnable(loadedIntegerPack, playerCount);
+    isGameWinnable(loadedIntegerPack, playerCount);
 
     populateGame(playerList, deckArray, loadedIntegerPack);
     startPlayerThreads(playerList);
-
   }
 }

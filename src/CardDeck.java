@@ -19,8 +19,9 @@ public class CardDeck {
 	}
 
 
-    public Card drawCard() {
-        return deck.remove(0);
+    public synchronized Card drawCard() {
+		Card returnCard = this.deck.get(0);
+        return returnCard;
     }
 
 	@Override
