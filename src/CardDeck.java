@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class CardDeck {
 	
-	private static ArrayList<Card> Deck;
+	private static ArrayList<Card> deck = new ArrayList<Card>();
 	private static int deckNumber;
 
 	public CardDeck(int deckNumber) {
@@ -11,15 +10,20 @@ public class CardDeck {
 	}
 
 	public static void printDeck() {
-		System.out.println(Deck);
+		System.out.println(deck);
 	}
 	
-    public static synchronized void addCard(int deckNumber, int cardDesignation) {	
-    	System.out.println("Adding: " + cardDesignation + " to Deck: " + deckNumber);
-
+    public static synchronized void addCard(Card card) {
+		deck.add(card);
+		//printDeck();
 	}
 
     public synchronized int drawCard() {
         return 0;
     }
+
+	@Override
+	public String toString() {
+		return "CardDeck " + deckNumber;
+	}
 }

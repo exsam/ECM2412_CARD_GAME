@@ -1,5 +1,8 @@
-import java.io.File;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class CardGame {
 
@@ -7,7 +10,7 @@ public class CardGame {
   public static CardDeck[] cardDecks;
   static int playerCount;
 
-  public static boolean validatePack(String packLocation, int playerCount) {
+  /*public static boolean validatePack(String packLocation, int playerCount) {
     List<Integer> tempDeck = new ArrayList<>();
     File myObj = new File(packLocation);
     try {
@@ -70,15 +73,44 @@ public class CardGame {
       System.out.println(e);
       return false;
     }
-  }
+  }*/
 
-  public static ArrayList<Integer> importPack(int playerCount) {
+  public static ArrayList<Integer> importPackFile(int playerCount) {
     // First Get Pack Location
     Scanner locationInput = new Scanner(System.in);
-    System.out.print(" Please Enter The Pack Location: ");
-    String packIn = locationInput.nextLine();
+    boolean validInput = false;
+
     ArrayList<Integer> loadedIntegerPack = new ArrayList<Integer>();
-    return loadedIntegerPack;
+
+    System.out.print("Please Enter The Pack Location: ");
+    String packIn = locationInput.nextLine();
+    File inputFile = new File(packIn);
+    try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+      while (reader.ready()) {
+        int loadedInt = Integer.valueOf(reader.readLine());
+        if (loadedInt >= 0) {
+          loadedIntegerPack.add(loadedInt);
+        } else {
+          System.out.println("All Values Must Be A Non-Negative Integer");
+          return importPackFile(playerCount);
+        }
+      }
+    } catch (FileNotFoundException e) {
+      System.out.println("Please Input The Correct File Path");
+      return importPackFile(playerCount);
+    } catch (NumberFormatException e) {
+      System.out.println("All Values Must Be An Integer");
+      return importPackFile(playerCount);
+    } catch (IOException e) {
+      System.out.println(e);
+      return importPackFile(playerCount);
+    }
+    if (loadedIntegerPack.size() == (8 * playerCount)) {
+      return loadedIntegerPack;
+    } else {
+      System.out.println("The Input Pack Must Only Contains 8 Times The Player Count");
+      return importPackFile(playerCount);
+    }
   }
 
   // TODO: function isGameWinnable
@@ -127,72 +159,67 @@ public class CardGame {
       return winnable;
     }
   }
-  /*  // TODO: function generatePlayerThreads
-  public static void generatePlayerThreads(int playerCount){
-    // Generating The Player Threads
-    for (int i = 1; i <= playerCount; i++) {
-      // creating playerBase player thread object
-      Player playerBase = new Player(i);
-      System.out.println("player" + i);
-      // starting playerBase player thread
-      playerBase.start();
-      // naming thread to each player
-      playerBase.setName("player" + i);
-    }
-  }
-  // TODO: function generateDecks
-  public static void generateDecks(int playerCount){
-    // Generating The Player Threads
-    for (int i = 1; i <= playerCount; i++) {
-      // creating base player thread object
-      CardDeck deckBase = new CardDeck();
-      System.out.println("deck" + i);
-      // naming thread to each player
-    }
-  }*/
-  // TODO: function populateGame
-  public static void populateGame(Player[] playerList, CardDeck[] cardDecks, ArrayList<Integer> inputPack) {
-    // TODO: loop through player adding cards from inputPack
+
+  // populates the players hands and the card decks
+  public static void populateGame(
+      Player[] playerList, CardDeck[] cardDecks, ArrayList<Integer> inputPack) {
+    // loops through 4 times leading to 4 cards per Player hand
     for (int j = 0; j <= 4; j++) {
       for (int i = 0; i < playerList.length; i++) {
-        playerList[i].addToHand(new Card(playerList[i].toString(), inputPack.get(1)));
-        inputPack.remove(1);
+        // for each player, round robin deal a card to each hand
+        // playerList[i].addCardToHand(new Card((((Integer)i).toString()), inputPack.get(0)));
+        // inputPack.remove(0);
+        //System.out.println(new Card((((Integer) (i + 1)).toString()), inputPack.get(0)));
+        playerList[i].addCardToHand((new Card((((Integer) (i + 1)).toString()), inputPack.get(0))));
+        System.out.println(playerList[i].toString());
+        inputPack.remove(0);
       }
     }
-
-    // TODO: get each Deck
-    // TODO: distribute into deck
+    for (Player player : playerList) {
+      player.printHand();
+    }
+    // loops through 4 times leading to 4 cards per Deck
+    for (int j = 0; j <= 4; j++) {
+      for (int i = 0; i < cardDecks.length; i++) {
+        // for each deck, round robin deal a card
+        CardDeck.addCard(new Card(cardDecks[i].toString(), inputPack.get(0)));
+        inputPack.remove(0);
+      }
+    }
   }
 
-  public static void startPlayerThreads(Player[] playerList){
-
+  public static void startPlayerThreads(Player[] playerList) {
+    for (int i = 0; i < playerList.length; i++) {
+      playerList[i].start();
+      playerList[i].setName(playerList[i].toString());
+    }
   }
 
   public static void main(String[] args) {
-    // main method for entire game simulation
+    // Scanner for user input
     Scanner input = new Scanner(System.in);
-    System.out.print("Please Enter Number of Players:");
 
+    System.out.print("Please Enter Number of Players: ");
     int playerCount = input.nextInt();
 
+    // defining arrays and constructing players and decks
     playerList = new Player[playerCount];
-    System.out.println(playerList.length);
-
-    System.out.println("Please Enter Pack Location/Name:");
-    String packLocation = input.next();
-
-    while (validatePack(packLocation, playerCount) == false) {
-      System.out.println("Invalid Pack, please enter a new pack!");
-      System.out.println("Please Enter NEW Pack Location/Name:");
-      packLocation = input.next();
-      validatePack(packLocation, playerCount);
-    }
-
-    // generatePlayerThreads(playerCount);
+    cardDecks = new CardDeck[playerCount];
 
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
-    CardDeck.printDeck();
+    for (int i = 0; i < playerCount; i++) {
+      playerList[i] = new Player(i + 1);
+      cardDecks[i] = new CardDeck(i + 1);
+      System.out.println(cardDecks[i].toString());
+    }
+
+    ArrayList<Integer> loadedIntegerPack = importPackFile(playerCount);
+    // isGameWinnable(loadedIntegerPack, playerCount);
+
+    populateGame(playerList, cardDecks, loadedIntegerPack);
+    startPlayerThreads(playerList);
+
 
     /*
     Declare array with correct size for number of players
