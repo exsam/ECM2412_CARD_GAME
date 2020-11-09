@@ -10,71 +10,6 @@ public class CardGame {
   public static CardDeck[] cardDecks;
   static int playerCount;
 
-  /*public static boolean validatePack(String packLocation, int playerCount) {
-    List<Integer> tempDeck = new ArrayList<>();
-    File myObj = new File(packLocation);
-    try {
-      Scanner myReader = new Scanner(myObj);
-
-      // NEED TO ADD CODE TO CHECK THAT THE INCOMING DATA IS INTEGER
-
-      int currentDeckIndex = 0;
-      int currentDeckSize = 0;
-      while (myReader.hasNextLine()) {
-        int data = Integer.parseInt(myReader.nextLine());
-        if (currentDeckSize < 3) {
-          CardDeck.addCard(currentDeckIndex, data);
-          currentDeckSize++;
-        } else if (currentDeckSize == 3) {
-          CardDeck.addCard(currentDeckIndex, data);
-          currentDeckIndex++;
-          currentDeckSize = 0;
-        }
-        tempDeck.add(data);
-      }
-      myReader.close();
-      int[] tempArrayDeck = tempDeck.stream().filter(t -> t != null).mapToInt(t -> t).toArray();
-      Arrays.sort(tempArrayDeck);
-
-      if ((8 * playerCount) == tempArrayDeck.length) {
-        List<Integer> checkedDesignations = new ArrayList<>();
-        for (int i = 0; i < tempArrayDeck.length; i++) {
-          if (checkedDesignations.contains(tempArrayDeck[i]) == false) {
-            int cardCount = 0;
-            for (int j = 0; j < tempArrayDeck.length; j++) {
-              // System.out.println("Current checking i: " + tempArrayDeck[i] + " against j: " +
-              // tempArrayDeck[j]);
-              if (tempArrayDeck[i] == tempArrayDeck[j]) {
-                // System.out.println("Matches so cardcount increment");
-                cardCount++;
-              }
-            }
-            if (cardCount == 4) {
-              // System.out.println("adding " + tempArrayDeck[i] + " to checked designations");
-              checkedDesignations.add(tempArrayDeck[i]);
-            } else if (cardCount < 4) {
-              System.out.println("Not 4 of one card type!");
-              return false;
-            }
-          } else {
-            // System.out.println("This Designation: " + tempArrayDeck[i] + " has already been
-            // checked!");
-          }
-        }
-        System.out.println("Loop Finished!");
-        return true;
-
-      } else {
-        System.out.println("Invalid pack length!");
-        return false;
-      }
-
-    } catch (Exception e) {
-      System.out.println(e);
-      return false;
-    }
-  }*/
-
   public static ArrayList<Integer> importPackFile(int playerCount) {
     // First Get Pack Location
     Scanner locationInput = new Scanner(System.in);
@@ -168,18 +103,10 @@ public class CardGame {
       for (int i = 0; i < playerList.length; i++) {
         playerList[i].addCardToHand((new Card((((Integer) (i+1)).toString()), inputPack.get(0))));
         inputPack.remove(0);
-        System.out.println("HAND of " + playerList[i].toString());
-        playerList[i].getHandDenominations();
       }
-    }
-    for (Player player : playerList) {
-      System.out.println(player.toString());
-      player.getHandDenominations();
-      System.out.println("END OF HAND");
     }
     // loops through 4 times leading to 4 cards per Deck
     for (int j = 0; j < 4; j++) {
-      System.out.println(cardDecks.length);
       for (int d = 0; d < cardDecks.length; d++) {
         // for each deck, round robin deal a card
         cardDecks[d].addCard(new Card(cardDecks[d].toString(), inputPack.get(0)));
@@ -221,27 +148,5 @@ public class CardGame {
     populateGame(playerList, cardDecks, loadedIntegerPack);
     startPlayerThreads(playerList);
 
-    /*
-    Declare array with correct size for number of players
-    int[] Pack;
-    Pack = new int[8*playerCount];
-
-    int CurrentCard = 1;
-    int CurrentCount = 0;
-    for (int i=0; i < Pack.length; i++ ) {
-    System.out.println("Index: " + i);
-    System.out.println("CurrentCard: " + CurrentCard);
-    System.out.println("CurrentCount: " + CurrentCount);
-    if (CurrentCount == 4) {
-    CurrentCard++;
-    CurrentCount = 0;
-    }
-    Pack[i] = CurrentCard;
-    CurrentCount++;
-
-    }
-
-    System.out.println(Arrays.toString(Pack));
-    */
   }
 }

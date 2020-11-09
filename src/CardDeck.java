@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class CardDeck {
 	
-	private static ArrayList<Card> deck = new ArrayList<Card>();
-	private static int deckNumber;
+	private ArrayList<Card> deck = new ArrayList<Card>();
+	private final int deckNumber;
 
 	public CardDeck(int deckNumber) {
 		this.deckNumber = deckNumber;

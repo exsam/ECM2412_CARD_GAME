@@ -23,9 +23,17 @@ public class Player extends Thread {
   }
 
   public void getHandDenominations() {
+    //Prints Owner and Denomination of Card
     for (Card card : this.hand) {
       System.out.println(card.getOwner() + " " + card.getDenomination());
     }
+  }
+
+  public boolean isWinner() {
+    for(Card card : this.hand){
+      return true;
+    }
+    return false;
   }
 
   @Override
