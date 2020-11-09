@@ -36,6 +36,11 @@ public class Player extends Thread {
     return false;
   }
 
+  public void run(CardDeck[] deckArray) {
+    synchronized (this) {
+      addCardToHand(deckArray[playerNumber + 1].drawCard());
+            }
+  }
   @Override
   public String toString() {
     return "Player " + playerNumber;

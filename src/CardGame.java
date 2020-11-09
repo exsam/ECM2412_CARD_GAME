@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class CardGame {
 
   public static Player[] playerList;
-  public static CardDeck[] cardDecks;
+  public static CardDeck[] deckArray;
   static int playerCount;
 
   public static ArrayList<Integer> importPackFile(int playerCount) {
@@ -132,20 +132,20 @@ public class CardGame {
 
     // defining arrays and constructing players and decks
     playerList = new Player[playerCount];
-    cardDecks = new CardDeck[playerCount];
+    deckArray = new CardDeck[playerCount];
 
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
     for (int i = 0; i < playerCount; i++) {
       playerList[i] = new Player(i + 1);
-      cardDecks[i] = new CardDeck(i + 1);
-      System.out.println(cardDecks[i].toString());
+      deckArray[i] = new CardDeck(i + 1);
+      System.out.println(deckArray[i].toString());
     }
 
     ArrayList<Integer> loadedIntegerPack = importPackFile(playerCount);
     // isGameWinnable(loadedIntegerPack, playerCount);
 
-    populateGame(playerList, cardDecks, loadedIntegerPack);
+    populateGame(playerList, deckArray, loadedIntegerPack);
     startPlayerThreads(playerList);
 
   }
