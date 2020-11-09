@@ -164,30 +164,27 @@ public class CardGame {
   public static void populateGame(
       Player[] playerList, CardDeck[] cardDecks, ArrayList<Integer> inputPack) {
     // loops through 4 times leading to 4 cards per Player hand
-    for (int j = 0; j <= 4; j++) {
+    for (int j = 0; j < 4; j++) {
       for (int i = 0; i < playerList.length; i++) {
-        // for each player, round robin deal a card to each hand
-        // playerList[i].addCardToHand(new Card((((Integer)i).toString()), inputPack.get(0)));
-        // inputPack.remove(0);
-        //System.out.println(new Card((((Integer) (i + 1)).toString()), inputPack.get(0)));
-        playerList[i].addCardToHand((new Card((((Integer) (i + 1)).toString()), inputPack.get(0))));
-        System.out.println(playerList[i].toString());
+        playerList[i].addCardToHand((new Card((((Integer) (i+1)).toString()), inputPack.get(0))));
         inputPack.remove(0);
+        System.out.println("HAND of " + playerList[i].toString());
+        playerList[i].getHandDenominations();
       }
     }
     for (Player player : playerList) {
-      player.printHand();
+      System.out.println(player.toString());
+      player.getHandDenominations();
+      System.out.println("END OF HAND");
     }
     // loops through 4 times leading to 4 cards per Deck
-    for (int j = 0; j <= 4; j++) {
-      for (int i = 0; i < cardDecks.length; i++) {
+    for (int j = 0; j < 4; j++) {
+      System.out.println(cardDecks.length);
+      for (int d = 0; d < cardDecks.length; d++) {
         // for each deck, round robin deal a card
-        if (inputPack.size() != 0) {
-          CardDeck.addCard(new Card(cardDecks[i].toString(), inputPack.get(0)));
-          inputPack.remove(0);
-        } else {
-          cardDecks[i].printDeck();
-        }
+        cardDecks[d].addCard(new Card(cardDecks[d].toString(), inputPack.get(0)));
+        inputPack.remove(0);
+        System.out.println(cardDecks[d].toString() + " " + cardDecks[d].getDeck());
       }
     }
   }
@@ -223,7 +220,6 @@ public class CardGame {
 
     populateGame(playerList, cardDecks, loadedIntegerPack);
     startPlayerThreads(playerList);
-
 
     /*
     Declare array with correct size for number of players

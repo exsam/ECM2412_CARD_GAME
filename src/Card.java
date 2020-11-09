@@ -14,9 +14,6 @@ public class Card {
     return denomination;
   }
 
-  public void setDenomination(int denomination) {
-    this.denomination = denomination;
-  }
 
   @Override
   public String toString() {

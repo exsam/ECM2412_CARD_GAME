@@ -9,14 +9,15 @@ public class CardDeck {
 		this.deckNumber = deckNumber;
 	}
 
-	public static void printDeck() {
-		System.out.println(deck);
+	public ArrayList<Card> getDeck() {
+		return this.deck;
 	}
 	
-    public static synchronized void addCard(Card card) {
-		deck.add(card);
+    public synchronized void addCard(Card card) {
+		this.deck.add(card);
 		//printDeck();
 	}
+
 
     public synchronized int drawCard() {
         return 0;
@@ -24,6 +25,6 @@ public class CardDeck {
 
 	@Override
 	public String toString() {
-		return "CardDeck " + deckNumber;
+		return "CardDeck " + this.deckNumber;
 	}
 }

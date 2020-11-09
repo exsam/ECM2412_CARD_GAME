@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Player extends Thread {
 
-  private static List<Card> hand = new ArrayList<Card>();
-  private int playerNumber;
+  private List<Card> hand = new ArrayList<Card>();
+  private final int playerNumber;
 
   public Player(int number) {
     this.playerNumber = number;
@@ -17,16 +17,19 @@ public class Player extends Thread {
   public void addCardToHand(Card card) {
     this.hand.add(card);
   }
-  public void removeCard(int index)
-  {
+
+  public void removeCard(int index) {
     this.hand.remove(index);
   }
-  public void printHand(){
-    System.out.println(hand);
+
+  public void getHandDenominations() {
+    for (Card card : this.hand) {
+      System.out.println(card.getOwner() + " " + card.getDenomination());
+    }
   }
+
   @Override
   public String toString() {
     return "Player " + playerNumber;
   }
-
 }
