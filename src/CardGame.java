@@ -182,8 +182,12 @@ public class CardGame {
     for (int j = 0; j <= 4; j++) {
       for (int i = 0; i < cardDecks.length; i++) {
         // for each deck, round robin deal a card
-        CardDeck.addCard(new Card(cardDecks[i].toString(), inputPack.get(0)));
-        inputPack.remove(0);
+        if (inputPack.size() != 0) {
+          CardDeck.addCard(new Card(cardDecks[i].toString(), inputPack.get(0)));
+          inputPack.remove(0);
+        } else {
+          cardDecks[i].printDeck();
+        }
       }
     }
   }
