@@ -11,11 +11,11 @@ public class Player extends Thread {
   }
 
   public int getPlayerNumber() {
-    return playerNumber;
+    return this.playerNumber;
   }
 
   public void addCardToHand(Card card) {
-    card.setOwner("p" + playerNumber);
+    card.setOwner("p" + this.playerNumber);
     this.hand.add(card);
   }
 
@@ -26,7 +26,7 @@ public class Player extends Thread {
   public Card discardCard() {
     Card returnCard = this.hand.get(0);
     for (Card c : hand) {
-      if (c.getDenomination() != playerNumber) {
+      if (c.getDenomination() != this.playerNumber) {
         returnCard = c;
         break;
       } else {
