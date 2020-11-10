@@ -24,15 +24,13 @@ public class Player extends Thread {
 
   public Card discardCard() {
     Card returnCard = this.hand.get(0);
-    for(Card c : hand){
-      if (c.getDenomination() != playerNumber){
+    for (Card c : hand) {
+      if (c.getDenomination() != playerNumber) {
         returnCard = c;
         break;
       } else {
-        System.out.println("EQUALS");
         continue;
       }
-
     }
     this.hand.remove(returnCard);
     return returnCard;
@@ -46,22 +44,23 @@ public class Player extends Thread {
   }
 
   public boolean isWinner() {
-    //cycle through player hand and checks if all values match the first value
+    // cycle through player hand and checks if all values match the first value
     for (Card card : this.hand) {
       if (card.getDenomination() != this.hand.get(0).getDenomination()) {
         return false;
       }
     }
+
     return true;
   }
 
   public void run() {
     int discardDeckIndex = playerNumber - 1;
     int drawDeckIndex = playerNumber;
-    if(playerNumber == CardGame.deckArray.length) {
+    if (playerNumber == CardGame.deckArray.length) {
       drawDeckIndex = 0;
     }
-    System.out.println(this.toString() + " dis: " + discardDeckIndex + " draw: " + drawDeckIndex );
+    System.out.println(this.toString() + " dis: " + discardDeckIndex + " draw: " + drawDeckIndex);
     System.out.println(isWinner());
     boolean winner = isWinner();
     synchronized (this) {
