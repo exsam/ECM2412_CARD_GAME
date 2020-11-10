@@ -27,7 +27,6 @@ public class Player extends Thread {
     for(Card c : hand){
       if (c.getDenomination() != playerNumber){
         returnCard = c;
-        System.out.println(c.toString());
         break;
       } else {
         System.out.println("EQUALS");
