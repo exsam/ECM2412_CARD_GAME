@@ -15,6 +15,7 @@ public class Player extends Thread {
   }
 
   public void addCardToHand(Card card) {
+    card.setOwner("p" + playerNumber);
     this.hand.add(card);
   }
 
@@ -51,6 +52,9 @@ public class Player extends Thread {
       }
     }
 
+    CardGame.won.set(true);
+    CardGame.winningPlayer.set(playerNumber);
+
     return true;
   }
 
@@ -64,11 +68,24 @@ public class Player extends Thread {
     boolean winner = isWinner();
     synchronized (this) {
       // setting thread flag
-      while (!winner) {
-        addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());
-        CardGame.deckArray[discardDeckIndex].addCard(discardCard());
+      while (!CardGame.won.get()) {
+        try {
+          addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());
+          CardGame.deckArray[discardDeckIndex].addCard(discardCard());
+        } catch (IndexOutOfBoundsException e) {
+          System.out.println(e);
+          getHandDenominations();
+        }
         winner = isWinner();
       }
+      System.out.println(
+          CardGame.winningPlayer.get()
+              + " has notified Player "
+              + playerNumber
+              + " that it has won!");
+      CardDeck deckTest = CardGame.deckArray[drawDeckIndex];
+      System.out.println(drawDeckIndex + " " + deckTest.getDeck());
+      System.out.println("LOST");
     }
     System.out.println(toString() + " has " + hand);
   }

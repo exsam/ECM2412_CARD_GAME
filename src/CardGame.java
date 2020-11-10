@@ -3,12 +3,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CardGame {
 
   public static Player[] playerList;
   public static CardDeck[] deckArray;
-  public static int playerCount;
+  public static AtomicBoolean won;
+  private static int playerCount;
+  public static AtomicInteger winningPlayer;
+
+  public static int getPlayerCount() {
+    return playerCount;
+  }
 
   public static ArrayList<Integer> importPackFile(int playerCount) {
     // First Get Pack Location
@@ -48,7 +56,6 @@ public class CardGame {
     }
   }
 
-  // TODO: function isGameWinnable
   public static boolean isGameWinnable(ArrayList<Integer> loadedIntegerPack, int playerCount) {
     // hashmap to store the frequency of element
     Map<String, Integer> dict = new HashMap<>();
@@ -101,7 +108,7 @@ public class CardGame {
     // loops through 4 times leading to 4 cards per Player hand
     for (int j = 0; j < 4; j++) {
       for (int i = 0; i < playerList.length; i++) {
-        playerList[i].addCardToHand((new Card((((Integer) (i+1)).toString()), inputPack.get(0))));
+        playerList[i].addCardToHand((new Card((((Integer) (i + 1)).toString()), inputPack.get(0))));
         inputPack.remove(0);
       }
     }
@@ -142,6 +149,9 @@ public class CardGame {
 
     ArrayList<Integer> loadedIntegerPack = importPackFile(playerCount);
     isGameWinnable(loadedIntegerPack, playerCount);
+
+    won = new AtomicBoolean(false);
+    winningPlayer = new AtomicInteger(0);
 
     populateGame(playerList, deckArray, loadedIntegerPack);
     startPlayerThreads(playerList);
