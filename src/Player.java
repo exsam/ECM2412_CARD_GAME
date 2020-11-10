@@ -50,6 +50,7 @@ public class Player extends Thread {
         return false;
       }
     }
+
     return true;
   }
 
