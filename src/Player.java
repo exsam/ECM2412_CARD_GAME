@@ -23,7 +23,20 @@ public class Player extends Thread {
   }
 
   public Card discardCard() {
-    return this.hand.get(0);
+    Card returnCard = this.hand.get(0);
+    for(Card c : hand){
+      if (c.getDenomination() != playerNumber){
+        returnCard = c;
+        System.out.println(c.toString());
+        break;
+      } else {
+        System.out.println("EQUALS");
+        continue;
+      }
+
+    }
+    this.hand.remove(returnCard);
+    return returnCard;
   }
 
   public void getHandDenominations() {
@@ -45,20 +58,17 @@ public class Player extends Thread {
 
   public void run() {
     int discardDeckIndex = playerNumber - 1;
-    int pickupDeckIndex;
-    if(playerNumber == CardGame.playerCount) {
-      pickupDeckIndex = 0;
-      discardDeckIndex = playerNumber-2;
-    } else {
-      pickupDeckIndex = playerNumber-1;
-      discardDeckIndex = playerNumber-1;
+    int drawDeckIndex = playerNumber;
+    if(playerNumber == CardGame.deckArray.length) {
+      drawDeckIndex = 0;
     }
+    System.out.println(this.toString() + " dis: " + discardDeckIndex + " draw: " + drawDeckIndex );
     System.out.println(isWinner());
     boolean winner = isWinner();
     synchronized (this) {
       // setting thread flag
       while (!winner) {
-        addCardToHand(CardGame.deckArray[pickupDeckIndex].drawCard());
+        addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());
         CardGame.deckArray[discardDeckIndex].addCard(discardCard());
         winner = isWinner();
       }

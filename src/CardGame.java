@@ -8,7 +8,7 @@ public class CardGame {
 
   public static Player[] playerList;
   public static CardDeck[] deckArray;
-  static int playerCount;
+  public static int playerCount;
 
   public static ArrayList<Integer> importPackFile(int playerCount) {
     // First Get Pack Location

@@ -15,12 +15,12 @@ public class CardDeck {
 	
     public synchronized void addCard(Card card) {
 		this.deck.add(card);
-		//printDeck();
 	}
 
 
     public synchronized Card drawCard() {
 		Card returnCard = this.deck.get(0);
+		this.deck.remove(0);
         return returnCard;
     }
 
