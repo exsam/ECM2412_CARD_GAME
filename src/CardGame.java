@@ -7,8 +7,10 @@ public class CardGame {
 
   public static Player[] playerList;
   public static CardDeck[] deckArray;
+
   public static AtomicBoolean won;
   public static AtomicInteger winningPlayer;
+
   private static int playerCount;
 
   public static int getPlayerCount() {
@@ -45,6 +47,7 @@ public class CardGame {
       System.out.println(e);
       return importPackFile(playerCount);
     }
+    System.out.println(playerCount + loadedIntegerPack.size() + " " + loadedIntegerPack);
     if (loadedIntegerPack.size() == (8 * playerCount)) {
       return loadedIntegerPack;
     } else {
@@ -69,6 +72,7 @@ public class CardGame {
     return playerCount;
   }
 
+  //TODO sort out isGameWinnable Class
   public static boolean isGameWinnable(ArrayList<Integer> loadedIntegerPack, int playerCount) {
     // hashmap to store the frequency of element
     Map<String, Integer> dict = new HashMap<>();
@@ -144,7 +148,7 @@ public class CardGame {
 
   public static void main(String[] args) {
 
-    int playerCount = playerCountInput();
+    playerCount = playerCountInput();
 
     // defining arrays and constructing players and decks
     playerList = new Player[playerCount];
@@ -164,9 +168,6 @@ public class CardGame {
     winningPlayer = new AtomicInteger(0);
 
     populateGame(playerList, deckArray, loadedIntegerPack);
-    for (CardDeck deckTest : deckArray) {
-      deckTest.outputToFile();
-    }
     startPlayerThreads(playerList);
   }
 }
