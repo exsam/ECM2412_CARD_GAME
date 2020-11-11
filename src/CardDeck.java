@@ -15,6 +15,10 @@ public class CardDeck {
     return this.deck;
   }
 
+  public int getDeckNumber() {
+    return deckNumber;
+  }
+
   public synchronized void addCard(Card card) {
     card.setOwner("d" + this.deckNumber);
     this.deck.add(card);

@@ -18,7 +18,7 @@ public class Player extends Thread {
 
   public synchronized void addCardToHand(Card card) {
     card.setOwner("p" + this.playerNumber);
-    writeToFile("\nplayer " + playerNumber + " draws a " + card.getDenomination());
+    writeToFile(System.lineSeparator() + "player " + playerNumber + " draws a " + card.getDenomination());
     this.hand.add(card);
   }
 
@@ -31,6 +31,7 @@ public class Player extends Thread {
     for (Card c : hand) {
       if (c.getDenomination() != this.playerNumber) {
         returnCard = c;
+        writeToFile("\nplayer " + playerNumber + " discards a " + returnCard.getDenomination());
         break;
       } else {
         continue;
@@ -97,7 +98,7 @@ public class Player extends Thread {
   public void run() {
 
     createFile();
-    writeToFile("Player " + playerNumber + " initial hand " + getHandValueString());
+    writeToFile("player " + playerNumber + " initial hand " + getHandValueString());
 
     //initally check if hand is winning
     checkForWin();
@@ -122,7 +123,10 @@ public class Player extends Thread {
       synchronized (this) {
         try {
           addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());
+          writeToFile(" from deck " + CardGame.deckArray[drawDeckIndex].getDeckNumber());
           CardGame.deckArray[discardDeckIndex].addCard(discardCard());
+          writeToFile(" to deck " + CardGame.deckArray[discardDeckIndex].getDeckNumber());
+          writeToFile(System.lineSeparator() + "player " + playerNumber + " current hand is " + getHandValueString());
         } catch (IndexOutOfBoundsException e) {
           System.out.println(e);
           printCardInformation();
@@ -143,14 +147,6 @@ public class Player extends Thread {
     writeToFile(System.lineSeparator() + "player " + playerNumber + " exits");
     writeToFile(System.lineSeparator() + "player " + playerNumber + " hand: " + getHandValueString());
     CardGame.deckArray[drawDeckIndex].outputToFile();
-/*    System.out.println(
-        CardGame.winningPlayer.get()
-            + " has notified Player "
-            + playerNumber
-            + " that it has won!");
-    CardDeck deckTest = CardGame.deckArray[drawDeckIndex];
-    System.out.println(drawDeckIndex + " " + deckTest.getDeck());
-    System.out.println(toString() + " has " + hand);*/
   }
 
   @Override

@@ -47,7 +47,6 @@ public class CardGame {
       System.out.println(e);
       return importPackFile(playerCount);
     }
-    System.out.println(playerCount + loadedIntegerPack.size() + " " + loadedIntegerPack);
     if (loadedIntegerPack.size() == (8 * playerCount)) {
       return loadedIntegerPack;
     } else {
