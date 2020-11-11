@@ -66,7 +66,7 @@ public class Player extends Thread {
       myWriter.write(writeString);
       myWriter.close();
     } catch (IOException e) {
-      System.out.println("An error occurred.");
+      System.out.println("An error occurred when writing player file.");
       e.printStackTrace();
     }
   }
@@ -76,7 +76,7 @@ public class Player extends Thread {
     try {
       new FileWriter("player" + this.playerNumber + "_output.txt", false);
     } catch (IOException e) {
-      System.out.println("An error occurred.");
+      System.out.println("An error occurred when creating player file.");
       e.printStackTrace();
     }
   }
@@ -88,22 +88,8 @@ public class Player extends Thread {
       drawDeckIndex = 0;
     }
     isWinner();
-    // synchronized (this) {
     // setting thread flag
     while (!CardGame.won.get()) {
-
-/*      if(Thread.interrupted()){
-        System.out.println("Thread Broken");
-        break;
-      }
-
-      try {
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-        //Thread.currentThread().interrupt();
-      }*/
-
       synchronized (this) {
         try {
           addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());

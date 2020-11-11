@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,8 +8,8 @@ public class CardGame {
   public static Player[] playerList;
   public static CardDeck[] deckArray;
   public static AtomicBoolean won;
-  private static int playerCount;
   public static AtomicInteger winningPlayer;
+  private static int playerCount;
 
   public static int getPlayerCount() {
     return playerCount;
@@ -54,6 +51,22 @@ public class CardGame {
       System.out.println("The Input Pack Must Only Contains 8 Times The Player Count");
       return importPackFile(playerCount);
     }
+  }
+
+  private static int playerCountInput(){
+    Scanner input = new Scanner(System.in);
+    System.out.print("Please enter the number of players: ");
+    try{
+    playerCount = input.nextInt();
+    }catch(InputMismatchException e){
+      System.out.println("Please enter an Integer.");
+      playerCountInput();
+    }
+    if(playerCount < 2){
+      System.out.println("There must be 2 or more players.");
+      playerCountInput();
+    }
+    return playerCount;
   }
 
   public static boolean isGameWinnable(ArrayList<Integer> loadedIntegerPack, int playerCount) {
@@ -130,11 +143,8 @@ public class CardGame {
   }
 
   public static void main(String[] args) {
-    // Scanner for user input
-    Scanner input = new Scanner(System.in);
 
-    System.out.print("Please Enter Number of Players: ");
-    int playerCount = input.nextInt();
+    int playerCount = playerCountInput();
 
     // defining arrays and constructing players and decks
     playerList = new Player[playerCount];
@@ -155,9 +165,8 @@ public class CardGame {
 
     populateGame(playerList, deckArray, loadedIntegerPack);
     for (CardDeck deckTest : deckArray) {
-        deckTest.outputToFile();
+      deckTest.outputToFile();
     }
     startPlayerThreads(playerList);
-
   }
 }
