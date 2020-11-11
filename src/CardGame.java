@@ -72,7 +72,7 @@ public class CardGame {
   }
 
   //TODO sort out isGameWinnable Class
-  public static boolean isGameWinnable(ArrayList<Integer> loadedIntegerPack, int playerCount) {
+  public static void isGameWinnable(ArrayList<Integer> loadedIntegerPack, int playerCount) {
     // hashmap to store the frequency of element
     Map<String, Integer> dict = new HashMap<>();
 
@@ -82,18 +82,18 @@ public class CardGame {
       dict.put(key, (j == null) ? 1 : j + 1);
     }
 
-    for (Map.Entry<String, Integer> val : dict.entrySet()) {
+   /* for (Map.Entry<String, Integer> val : dict.entrySet()) {
       System.out.println(
           "Card Value " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
     }
-
+*/
     boolean winnable = false;
 
     for (int p = 1; p < playerCount + 1; p++) {
       String key = Integer.toString(p);
       try {
         if (dict.get(key) >= 4) {
-          return true;
+          winnable = true;
         } else {
           System.out.println("\nPlayer " + p + " could win but is at a disadvantage.");
         }
@@ -104,17 +104,14 @@ public class CardGame {
 
     if (winnable) {
       System.out.println("\nThere is guaranteed to be a winner.");
-      return true;
     } else {
       // displaying the occurrence of elements in the arraylist
       for (Map.Entry<String, Integer> val : dict.entrySet()) {
         if (val.getValue() >= 4) {
           System.out.println(
               "\nThere is the possibility of a winning hand but the game may stagnate.");
-          return true;
         }
       }
-      return winnable;
     }
   }
 
@@ -124,7 +121,11 @@ public class CardGame {
     // loops through 4 times leading to 4 cards per Player hand
     for (int j = 0; j < 4; j++) {
       for (int i = 0; i < playerList.length; i++) {
-        playerList[i].addCardToHand((new Card((((Integer) (i + 1)).toString()), inputPack.get(0))));
+        try {
+          playerList[i].addCardToHand((new Card((((Integer) (i + 1)).toString()), inputPack.get(0))));
+        } catch (FormattingException e) {
+          e.printStackTrace();
+        }
         inputPack.remove(0);
       }
     }
@@ -132,7 +133,11 @@ public class CardGame {
     for (int j = 0; j < 4; j++) {
       for (int d = 0; d < cardDecks.length; d++) {
         // for each deck, round robin deal a card
-        cardDecks[d].addCard(new Card(cardDecks[d].toString(), inputPack.get(0)));
+        try {
+          cardDecks[d].addCard(new Card(cardDecks[d].toString(), inputPack.get(0)));
+        } catch (FormattingException e) {
+          e.printStackTrace();
+        }
         inputPack.remove(0);
       }
     }
@@ -156,8 +161,16 @@ public class CardGame {
     System.out.println("Setting Up A " + playerCount + " Player Game");
 
     for (int i = 0; i < playerCount; i++) {
-      playerList[i] = new Player(i + 1);
-      deckArray[i] = new CardDeck(i + 1);
+      try {
+        playerList[i] = new Player(i + 1);
+      } catch (ObjectReferenceNumberException e) {
+        e.printStackTrace();
+      }
+      try {
+        deckArray[i] = new CardDeck(i + 1);
+      } catch (ObjectReferenceNumberException e) {
+        e.printStackTrace();
+      }
     }
 
     ArrayList<Integer> loadedIntegerPack = importPackFile(playerCount);
