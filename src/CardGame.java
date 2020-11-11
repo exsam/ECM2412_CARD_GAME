@@ -154,6 +154,10 @@ public class CardGame {
     winningPlayer = new AtomicInteger(0);
 
     populateGame(playerList, deckArray, loadedIntegerPack);
+    for (CardDeck deckTest : deckArray) {
+        deckTest.outputToFile();
+    }
     startPlayerThreads(playerList);
+
   }
 }

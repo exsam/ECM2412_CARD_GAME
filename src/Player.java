@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,19 +46,39 @@ public class Player extends Thread {
     }
   }
 
-  public boolean isWinner() {
+  public synchronized boolean isWinner() {
     // cycle through player hand and checks if all values match the first value
     int firstCard = this.hand.get(0).getDenomination();
     for (Card card : this.hand) {
-      if (card.getDenomination() != this.hand.get(0).getDenomination()) {
+      if (CardGame.won.get() || card.getDenomination() != this.hand.get(0).getDenomination()) {
         return false;
       }
     }
-    System.out.println("I'VE WON " + playerNumber);
     CardGame.won.set(true);
     CardGame.winningPlayer.set(playerNumber);
 
     return true;
+  }
+
+  private void writeToFile(String writeString) {
+    try {
+      FileWriter myWriter = new FileWriter("player" + this.playerNumber + "_output.txt", true);
+      myWriter.write(writeString);
+      myWriter.close();
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
+  }
+
+  // Creates an output file for each player.
+  private void createFile() {
+    try {
+      new FileWriter("player" + this.playerNumber + "_output.txt", false);
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
   }
 
   public void run() {
@@ -66,38 +88,42 @@ public class Player extends Thread {
       drawDeckIndex = 0;
     }
     isWinner();
-    //synchronized (this) {
-      // setting thread flag
-      while (!CardGame.won.get()) {
+    // synchronized (this) {
+    // setting thread flag
+    while (!CardGame.won.get()) {
 
+/*      if(Thread.interrupted()){
+        System.out.println("Thread Broken");
+        break;
+      }
+
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        //Thread.currentThread().interrupt();
+      }*/
+
+      synchronized (this) {
         try {
-          Thread.sleep(5);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-
-        synchronized (this) {
-        try {
-
           addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());
           CardGame.deckArray[discardDeckIndex].addCard(discardCard());
-          isWinner();
-
-          } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
           System.out.println(e);
           getHandDenominations();
-          }
         }
       }
-      System.out.println(
-          CardGame.winningPlayer.get()
-              + " has notified Player "
-              + playerNumber
-              + " that it has won!");
-      CardDeck deckTest = CardGame.deckArray[drawDeckIndex];
-      System.out.println(drawDeckIndex + " " + deckTest.getDeck());
-      System.out.println("LOST");
-    //}
+      isWinner();
+    }
+    System.out.println(
+        CardGame.winningPlayer.get()
+            + " has notified Player "
+            + playerNumber
+            + " that it has won!");
+    CardDeck deckTest = CardGame.deckArray[drawDeckIndex];
+    System.out.println(drawDeckIndex + " " + deckTest.getDeck());
+    System.out.println("LOST");
+    // }
     System.out.println(toString() + " has " + hand);
   }
 
