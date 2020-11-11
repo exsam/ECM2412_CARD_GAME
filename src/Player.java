@@ -14,7 +14,7 @@ public class Player extends Thread {
     return this.playerNumber;
   }
 
-  public void addCardToHand(Card card) {
+  public synchronized void addCardToHand(Card card) {
     card.setOwner("p" + this.playerNumber);
     this.hand.add(card);
   }
@@ -23,7 +23,7 @@ public class Player extends Thread {
     this.hand.remove(index);
   }
 
-  public Card discardCard() {
+  public synchronized Card discardCard() {
     Card returnCard = this.hand.get(0);
     for (Card c : hand) {
       if (c.getDenomination() != this.playerNumber) {
@@ -46,12 +46,13 @@ public class Player extends Thread {
 
   public boolean isWinner() {
     // cycle through player hand and checks if all values match the first value
+    int firstCard = this.hand.get(0).getDenomination();
     for (Card card : this.hand) {
       if (card.getDenomination() != this.hand.get(0).getDenomination()) {
         return false;
       }
     }
-
+    System.out.println("I'VE WON " + playerNumber);
     CardGame.won.set(true);
     CardGame.winningPlayer.set(playerNumber);
 
@@ -64,19 +65,29 @@ public class Player extends Thread {
     if (playerNumber == CardGame.deckArray.length) {
       drawDeckIndex = 0;
     }
-    System.out.println(isWinner());
-    boolean winner = isWinner();
-    synchronized (this) {
+    isWinner();
+    //synchronized (this) {
       // setting thread flag
       while (!CardGame.won.get()) {
+
         try {
+          Thread.sleep(5);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+
+        synchronized (this) {
+        try {
+
           addCardToHand(CardGame.deckArray[drawDeckIndex].drawCard());
           CardGame.deckArray[discardDeckIndex].addCard(discardCard());
-        } catch (IndexOutOfBoundsException e) {
+          isWinner();
+
+          } catch (IndexOutOfBoundsException e) {
           System.out.println(e);
           getHandDenominations();
+          }
         }
-        winner = isWinner();
       }
       System.out.println(
           CardGame.winningPlayer.get()
@@ -86,7 +97,7 @@ public class Player extends Thread {
       CardDeck deckTest = CardGame.deckArray[drawDeckIndex];
       System.out.println(drawDeckIndex + " " + deckTest.getDeck());
       System.out.println("LOST");
-    }
+    //}
     System.out.println(toString() + " has " + hand);
   }
 
