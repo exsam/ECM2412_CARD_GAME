@@ -38,18 +38,19 @@ public class CardTest {
         assertEquals(newOwner, testCard.getOwner());
     }
 
-    //IF FormattingException thrown, we know test method catches the below formatting error
+    //IF FormattingException thrown, we know test method catches the
+    // below formatting error so the test passes
     @Test(expected = FormattingException.class)
     public void testSetOwnerInvalid() throws FormattingException {
         //Set new owner to "2" (invalid format)
         String newOwner = "2";
-        //Call Card,setOwner() with this invalid input format.
+        //Call Card,setOwner() with this invalid input format (error)
         testCard.setOwner(newOwner);
     }
 
     @Test
     public void testGetDenomination() {
         //Check Card.getDenomination value matches the global denomination set.
-        assertEquals(Denomination, testCard.getDenomination());
+        assertEquals(Denomination, testCard.getCardDenomination());
     }
 }

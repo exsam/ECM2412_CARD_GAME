@@ -1,7 +1,7 @@
 public class Card {
 
-  private String owner;
   private final int denomination;
+  private String owner;
 
   public Card(String owner, int denomination) {
     this.owner = owner;
@@ -12,18 +12,23 @@ public class Card {
     return owner;
   }
 
+  /**
+   * Sets owner of card.
+   *
+   * @param owner pX or dX dependent on if deck or player holding card
+   * @throws FormattingException
+   */
   public void setOwner(String owner) throws FormattingException {
+    // Ensures that owner is correct format
     char firstChar = owner.charAt(0);
     if (firstChar == 'p' || firstChar == 'd') {
       this.owner = owner;
     } else {
-      //if deck
-      throw new FormattingException();
+      throw new FormattingException("Owner should start with p or d.");
     }
   }
 
-  public int getDenomination() {
+  public int getCardDenomination() {
     return denomination;
   }
-
 }

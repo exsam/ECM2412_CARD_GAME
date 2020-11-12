@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +26,7 @@ public class CardDeckTest {
         for (int i = 1; i <= 4; i++) {
             Card tempCard = new Card("p1", i);
             testDeck.addCard(tempCard);
-            stringBuilder.append(tempCard.getDenomination() + " ");
+            stringBuilder.append(tempCard.getCardDenomination() + " ");
         }
         String expectedHandString = stringBuilder.toString().trim();
         String expectedFileContents = "deck" + testDeckNumber + " contents: " + expectedHandString;
@@ -60,7 +59,7 @@ public class CardDeckTest {
             fail("Failed to assert :No exception thrown");
         } catch (Exception ex) {
             assertNotNull("Failed to assert", ex.getMessage());
-            assertEquals("Failed to assert", "Index less than 0", ex.getMessage());
+            assertEquals("Failed to assert", "deckNumber is 0 or less", ex.getMessage());
         }
     }
 
@@ -72,7 +71,7 @@ public class CardDeckTest {
             fail("Failed to assert :No exception thrown");
         } catch (Exception ex) {
             assertNotNull("Failed to assert", ex.getMessage());
-            assertEquals("Failed to assert", "Index is 0", ex.getMessage());
+            assertEquals("Failed to assert", "deckNumber is 0 or less", ex.getMessage());
         }
     }
 
