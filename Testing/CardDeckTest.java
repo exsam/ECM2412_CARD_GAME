@@ -1,10 +1,47 @@
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CardDeckTest {
+
+    @Test
+    public void testGetDeckNumber() throws ObjectReferenceNumberException {
+        int expectedDeckNumber = 3;
+        CardDeck testDeck = new CardDeck(expectedDeckNumber);
+        int actualDeckNumber = testDeck.getDeckNumber();
+        assertEquals(expectedDeckNumber, actualDeckNumber);
+    }
+
+    @Test
+    public void testDeckToFileOutput() throws ObjectReferenceNumberException, FormattingException {
+        int testDeckNumber = 100;
+        CardDeck testDeck = new CardDeck(testDeckNumber);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 1; i <= 4; i++) {
+            Card tempCard = new Card("p1", i);
+            testDeck.addCard(tempCard);
+            stringBuilder.append(tempCard.getDenomination() + " ");
+        }
+        String expectedHandString = stringBuilder.toString().trim();
+        String expectedFileContents = "deck" + testDeckNumber + " contents: " + expectedHandString;
+        String actualFileContents = null;
+        testDeck.outputDeckCardDenominationsToFile();
+        String pathname = "deck" + testDeckNumber + "_output.txt";
+        try {
+            actualFileContents = new Scanner(new File(pathname)).useDelimiter("\\Z").next();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        assertEquals(expectedFileContents, actualFileContents);
+    }
 
     @Test
     public void testDeckIndexValid() throws ObjectReferenceNumberException {
@@ -81,7 +118,7 @@ public class CardDeckTest {
                 expectedDrawn = testCard;
             }
         }
-        Card actualDrawn = testDeck.getDeck().get(0);
+        Card actualDrawn = testDeck.drawCard();
         assertEquals(expectedDrawn, actualDrawn);
     }
 

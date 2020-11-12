@@ -17,7 +17,7 @@ public class Card {
     if (firstChar == 'p' || firstChar == 'd') {
       this.owner = owner;
     } else {
-      //
+      //if deck
       throw new FormattingException();
     }
   }
@@ -26,8 +26,4 @@ public class Card {
     return denomination;
   }
 
-  @Override
-  public String toString() {
-    return "Card{" + "owner='" + owner + '\'' + ", denomination=" + denomination + '}';
-  }
 }

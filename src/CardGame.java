@@ -13,6 +13,10 @@ public class CardGame {
 
   private static int playerCount;
 
+  public CardGame() {
+  }
+
+  //TODO delete this if not needed
   public static int getPlayerCount() {
     return playerCount;
   }
@@ -71,54 +75,11 @@ public class CardGame {
     return playerCount;
   }
 
-  //TODO sort out isGameWinnable Class
-  public static void isGameWinnable(ArrayList<Integer> loadedIntegerPack, int playerCount) {
-    // hashmap to store the frequency of element
-    Map<String, Integer> dict = new HashMap<>();
-
-    for (Integer i : loadedIntegerPack) {
-      String key = i.toString();
-      Integer j = dict.get(key);
-      dict.put(key, (j == null) ? 1 : j + 1);
-    }
-
-   /* for (Map.Entry<String, Integer> val : dict.entrySet()) {
-      System.out.println(
-          "Card Value " + val.getKey() + " " + "occurs" + ": " + val.getValue() + " times");
-    }
-*/
-    boolean winnable = false;
-
-    for (int p = 1; p < playerCount + 1; p++) {
-      String key = Integer.toString(p);
-      try {
-        if (dict.get(key) >= 4) {
-          winnable = true;
-        } else {
-          System.out.println("\nPlayer " + p + " could win but is at a disadvantage.");
-        }
-      } catch (NullPointerException e) {
-        System.out.println("\nPlayer " + p + " is very unlikely no");
-      }
-    }
-
-    if (winnable) {
-      System.out.println("\nThere is guaranteed to be a winner.");
-    } else {
-      // displaying the occurrence of elements in the arraylist
-      for (Map.Entry<String, Integer> val : dict.entrySet()) {
-        if (val.getValue() >= 4) {
-          System.out.println(
-              "\nThere is the possibility of a winning hand but the game may stagnate.");
-        }
-      }
-    }
-  }
-
   // populates the players hands and the card decks
   public static void populateGame(
       Player[] playerList, CardDeck[] cardDecks, ArrayList<Integer> inputPack) {
     // loops through 4 times leading to 4 cards per Player hand
+
     for (int j = 0; j < 4; j++) {
       for (int i = 0; i < playerList.length; i++) {
         try {
@@ -174,7 +135,6 @@ public class CardGame {
     }
 
     ArrayList<Integer> loadedIntegerPack = importPackFile(playerCount);
-    isGameWinnable(loadedIntegerPack, playerCount);
 
     won = new AtomicBoolean(false);
     winningPlayer = new AtomicInteger(0);

@@ -54,9 +54,4 @@ public class CardDeck {
     this.deck.remove(0);
     return returnCard;
   }
-
-  @Override
-  public String toString() {
-    return "CardDeck " + this.deckNumber;
-  }
 }
